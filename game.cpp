@@ -98,7 +98,6 @@ void game::Text(string text, int x, int y, SDL_Renderer* renderer, SDL_Color col
     }
     TTF_Font* font = NULL;
     font = TTF_OpenFont("eurof55.ttf", 30);
-    //SDL_Color fg = { 240, 66, 225 };
     SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     Tex = texture;
@@ -114,4 +113,5 @@ void game::Text(string text, int x, int y, SDL_Renderer* renderer, SDL_Color col
     desRect.w = srcRest.w;
     desRect.h = srcRest.h;
 }
+
 

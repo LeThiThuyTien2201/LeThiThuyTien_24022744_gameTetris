@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
                 tetris -> game();
                 tetris -> checkline();
                 tetris -> gameOver();
+                if (!tetris->isRunning()) break;
                 tetris -> updateRenderer();
             }
             tetris -> reset();

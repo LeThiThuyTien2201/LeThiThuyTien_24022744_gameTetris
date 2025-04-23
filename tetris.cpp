@@ -15,8 +15,7 @@ const int Tetris::figure[7][4] =
     1, 4, 5, 6  // T
 };
 
-bool Tetris::init()
-{
+bool Tetris::init(){
     Game.initSDL(Game.window, Game.renderer);
     SDL_SetRenderDrawColor(Game.renderer, 255, 255, 255, 255);
 
@@ -24,8 +23,7 @@ bool Tetris::init()
     return true;
 }
 
-bool Tetris::selectRect(SDL_Rect &rect, const int x, const int y)
-{
+bool Tetris::selectRect(SDL_Rect &rect, const int x, const int y){
     if(x >= rect.x && x <= rect.x + rect.w
        && y >= rect.y && y <= rect.y + rect.h){
         return true;
@@ -33,8 +31,7 @@ bool Tetris::selectRect(SDL_Rect &rect, const int x, const int y)
     return false;
 }
 
-bool Tetris::menu()
-{
+bool Tetris::menu(){
     SDL_Event e;
     backgroundMenu = Game.loadTexture("background_while.png", Game.renderer);
     play = Game.loadTexture("play.png", Game.renderer);
@@ -102,26 +99,22 @@ bool Tetris::menu()
 
             }
         }
-        else if(e.type == SDL_MOUSEBUTTONDOWN)
-        {
-        if(e.button.button == SDL_BUTTON_LEFT)
-        {
-            x = e.button.x;
-            y = e.button.y;
-            if(selectRect(playRect, x, y))
-            {
-                running = true;
+        else if(e.type == SDL_MOUSEBUTTONDOWN){
+            if(e.button.button == SDL_BUTTON_LEFT){
+                x = e.button.x;
+                y = e.button.y;
+                if(selectRect(playRect, x, y)){
+                    running = true;
+                }
+                else if(selectRect(levelRect, x, y)){
+                    if(level == 1)
+                        level++;
+                    else if(level == 2)
+                        level++;
+                    else if(level == 3)
+                        level -= 2;
+                }
             }
-            else if(selectRect(levelRect, x, y))
-            {
-                if(level == 1)
-                    level++;
-                else if(level == 2)
-                    level++;
-                else if(level == 3)
-                    level -= 2;
-            }
-        }
         }
 
     }
@@ -129,16 +122,16 @@ bool Tetris::menu()
     SDL_DestroyTexture(backgroundMenu);
     SDL_DestroyTexture(play);
     SDL_DestroyTexture(play_light);
+
+    return true;
 }
 
-void Tetris::updateField(SDL_Rect &rect, const int x, const int y)
-{
+void Tetris::updateField(SDL_Rect &rect, const int x, const int y){
     rect.x += x;
     rect.y += y;
 }
 
-void Tetris::Event()
-{
+void Tetris::Event(){
     SDL_Event e;
     while(SDL_PollEvent(&e))
     {
@@ -178,15 +171,12 @@ void Tetris::Event()
     }
 }
 
-void Tetris::setCurrentTime(Uint32 t)
-{
+void Tetris::setCurrentTime(Uint32 t){
     currentTime = t;
 }
 
-bool Tetris::collision()
-{
-    for(int i = 0; i < 4; i++)
-    {
+bool Tetris::collision(){
+    for(int i = 0; i < 4; i++){
         if(temp[i].x < 0 || temp[i].x >= col || temp[i].y >= line)   //va cham vs field
             return false;
         else if(field[temp[i].y][temp[i].x])  //va cham vs block
@@ -195,30 +185,24 @@ bool Tetris::collision()
     return true;
 }
 
-void Tetris::tetromino(SDL_Rect &rect, int x, int y, int w, int h)
-{
+void Tetris::tetromino(SDL_Rect &rect, int x, int y, int w, int h){
     rect = {x, y, w, h};
 }
 
-void Tetris::nextTetromino()
-{
+void Tetris::nextTetromino(){
     color = 1 + rand()%7;
     int a = rand()%7;
-    for(int i = 0; i < 4; i++)
-    {
+    for(int i = 0; i < 4; i++){
         temp[i].x = figure[a][i] % 4;
         temp[i].y = figure[a][i] / 4;
     }
 }
 
-void Tetris::game()
-{
-
-    for(int i = 0; i < 4; i++)
-        backup[i] = temp[i];   // save block khi va cham
-    //move
-    for(int i = 0; i < 4; i++)
-    {
+void Tetris::game(){
+    for(int i = 0; i < 4; i++){
+        backup[i] = temp[i];
+    }
+    for(int i = 0; i < 4; i++){
         temp[i].x += move;
     }
     if(!collision())   // xu li va cham khi move
@@ -244,17 +228,15 @@ void Tetris::game()
         }
     }
 
-    if(currentTime - lastTime > delay)
-    {
-        for(int i = 0; i < 4; i++)
-        {
+    if(currentTime - lastTime > delay){
+        for(int i = 0; i < 4; i++){
             temp[i].y += 1;
         }
         lastTime = currentTime;
-        if(!collision())
-        {
-            for(int i = 0; i < 4; i++)
+        if(!collision()){
+            for(int i = 0; i < 4; i++){
                 field[backup[i].y][backup[i].x] = color;// save mau o cuoi line
+            }
             nextTetromino();
         }
     }
@@ -269,22 +251,18 @@ void Tetris::game()
         delay = 250;
 }
 
-void Tetris::checkline()
-{
+void Tetris::checkline(){
     int n = line - 1;
-    for(int i = n; i > 0; i--)
-    {
+    for(int i = n; i > 0; i--){
         int count = 0;
-        for(int j = 0; j < col; j++)
-        {
+        for(int j = 0; j < col; j++){
             if(field[i][j])
                 count++;
             field[n][j] = field[i][j];
         }
         if(count < col)
             n--;
-        if(count == col)
-        {
+        if(count == col){
             Game.effectAudio("Lineclear_.wav");
             score += 100;
             string text = to_string(score);
@@ -296,29 +274,31 @@ void Tetris::checkline()
     }
 }
 
-void Tetris::gameOver()
-{
+void Tetris::gameOver(){
     int game_over_count = 0;
-    for(int i = 0; i < line; i++)
-    {
-        for(int j = 0; j < col; j++)
-        {
-            if(field[i][j] != 0)
-            {
+    for(int i = 0; i < line; i++){
+        for(int j = 0; j < col; j++){
+            if(field[i][j] != 0){
                 game_over_count ++;
                 break;
             }
         }
     }
-    if(game_over_count == line)
-    {
+    if(game_over_count == line){
+        Mix_HaltMusic(); // dung nhac nen neu dang chay
         Game.effectAudio("Gameover.wav");
+        SDL_Texture* GAME_OVER = Game.loadTexture("gameover.png", Game.renderer);
+        SDL_RenderCopy(Game.renderer, GAME_OVER, NULL, nullptr);
+        SDL_RenderPresent(Game.renderer);
+        SDL_Delay(3000);
+        SDL_DestroyTexture(GAME_OVER);
+
+        clean();
         running = false;
     }
 }
 
-void Tetris::updateRenderer()
-{
+void Tetris::updateRenderer(){
     SDL_RenderClear(Game.renderer);
     Game.backgroundAudio("Background.wav");
     background = Game.loadTexture("background.png", Game.renderer);
@@ -326,8 +306,7 @@ void Tetris::updateRenderer()
     score_frame = Game.loadTexture("score_frame.png", Game.renderer);
     SDL_RenderCopy(Game.renderer, background, NULL, NULL);
     SDL_RenderCopy(Game.renderer, score_frame, NULL, &dRect_score_frame);
-    if(score == 0)
-    {
+    if(score == 0){
         Game.Text("0", 58, 70, Game.renderer, { 240, 66, 225 });
         SDL_RenderCopy(Game.renderer, Game.Tex, &Game.srcRest, &Game.desRect);;
     }
@@ -347,8 +326,7 @@ void Tetris::updateRenderer()
         }
     }
     //Tao block
-    for(int i = 0; i < 4; i++)
-    {
+    for(int i = 0; i < 4; i++){
         tetromino(sRect, color * 36);
         tetromino(dRect, temp[i].x *blockW, temp[i].y*blockH);
         updateField(dRect, blockW, SCREEN_HEIGHT - (line + 1)*blockH);
@@ -358,19 +336,18 @@ void Tetris::updateRenderer()
     clean();
 }
 
-void Tetris::reset()
-{
-    for(int i = 0; i < line; i++)
-    {
-        for(int j = 0; j < col; j++)
-        {
-            field[line][col] = 0;
+void Tetris::reset(){
+    for(int i = 0; i < line; i++){
+        for(int j = 0; j < col; j++){
+            field[i][j] = 0;
         }
     }
+    score = 0;
 }
 
 void Tetris::clean() // chong tran bo nho
 {
+
     SDL_DestroyTexture(background);
     SDL_DestroyTexture(block);
     SDL_DestroyTexture(backgroundMenu);
