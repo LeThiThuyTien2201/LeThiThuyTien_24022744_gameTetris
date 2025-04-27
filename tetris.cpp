@@ -308,9 +308,9 @@ void Tetris::updateRenderer(){
     SDL_RenderCopy(Game.renderer, score_frame, NULL, &dRect_score_frame);
     if(score == 0){
         Game.Text("0", 58, 70, Game.renderer, { 240, 66, 225 });
-        SDL_RenderCopy(Game.renderer, Game.Tex, &Game.srcRest, &Game.desRect);;
+        SDL_RenderCopy(Game.renderer, Game.Tex, &Game.srcRest, &Game.desRect);
     }
-    SDL_RenderCopy(Game.renderer, Game.Tex, &Game.srcRest, &Game.desRect);;
+    SDL_RenderCopy(Game.renderer, Game.Tex, &Game.srcRest, &Game.desRect);
     //va cham vs day
     for(int i = 0; i < line; i++)
     {
