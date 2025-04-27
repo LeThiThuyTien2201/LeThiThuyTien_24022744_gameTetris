@@ -286,7 +286,7 @@ void Tetris::gameOver(){
     }
     if(game_over_count == line){
         Mix_HaltMusic(); // dung nhac nen neu dang chay
-        Game.effectAudio("Gameover.wav");
+        Game.effectAudio("gameover1.wav");
         SDL_Texture* GAME_OVER = Game.loadTexture("gameover.png", Game.renderer);
         SDL_RenderCopy(Game.renderer, GAME_OVER, NULL, nullptr);
         SDL_RenderPresent(Game.renderer);
