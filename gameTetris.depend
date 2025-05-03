@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1744873973 source:c:\users\vivobook\documents\sdl2_setup\gametetris\game.cpp
+1746250874 source:c:\users\vivobook\documents\sdl2_setup\gametetris\game.cpp
 	"Game.h"
 
 1744872763 c:\users\vivobook\documents\sdl2_setup\gametetris\game.h
@@ -11,7 +11,7 @@
 	<SDL_mixer.h>
 	<SDL_ttf.h>
 
-1745768144 source:c:\users\vivobook\documents\sdl2_setup\gametetris\tetris.cpp
+1745836707 source:c:\users\vivobook\documents\sdl2_setup\gametetris\tetris.cpp
 	"Tetris.h"
 
 1745285981 c:\users\vivobook\documents\sdl2_setup\gametetris\tetris.h

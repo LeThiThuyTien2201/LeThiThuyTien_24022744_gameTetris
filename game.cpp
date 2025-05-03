@@ -1,6 +1,6 @@
 #include "Game.h"
 
-void game::logSDLError(std::ostream& os, const std::string &msg, bool fatal)
+void game::logSDLError(std::ostream& os, const std::string &msg, bool fatal) // in loi SDL
 {
     os << msg << " Error: " << SDL_GetError() << std::endl;
     if (fatal) {
@@ -9,7 +9,7 @@ void game::logSDLError(std::ostream& os, const std::string &msg, bool fatal)
     }
 }
 
-void game::initSDL(SDL_Window* &window, SDL_Renderer* &renderer)
+void game::initSDL(SDL_Window* &window, SDL_Renderer* &renderer) // khoi tao SDL, tao cua so, render
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     logSDLError(std::cout, "SDL_Init", true);
@@ -23,7 +23,7 @@ void game::initSDL(SDL_Window* &window, SDL_Renderer* &renderer)
     SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
-void game::quitSDL(SDL_Window* window, SDL_Renderer* renderer)
+void game::quitSDL(SDL_Window* window, SDL_Renderer* renderer) // giai phong tai nguyen SDL truoc khi thoat chuong trinh
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -42,7 +42,7 @@ void game::waitGameKeyPressed()
 }
 
 
-SDL_Texture* game::loadTexture(string path, SDL_Renderer *renderer)
+SDL_Texture* game::loadTexture(string path, SDL_Renderer *renderer) // tai anh tu file va chuyen thanh texture
 {
     SDL_Texture *newTexture = nullptr;
     SDL_Surface *loadedSurface = IMG_Load(path.c_str());
@@ -58,7 +58,7 @@ SDL_Texture* game::loadTexture(string path, SDL_Renderer *renderer)
     return newTexture;
 }
 
-void game::backgroundAudio(const char* nameSong)
+void game::backgroundAudio(const char* nameSong) // phat nhac nen
 {
     Mix_Music* music = NULL;
  	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
@@ -74,7 +74,7 @@ void game::backgroundAudio(const char* nameSong)
         Mix_PlayMusic(music, -1);
 }
 
-void game::effectAudio(const char* nameSong)
+void game::effectAudio(const char* nameSong) // phat hieu ung am thanh
 {
     Mix_Chunk* chunk = NULL;
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
@@ -90,7 +90,7 @@ void game::effectAudio(const char* nameSong)
         Mix_PlayChannel(-1, chunk, 0);
 }
 
-void game::Text(string text, int x, int y, SDL_Renderer* renderer, SDL_Color color)
+void game::Text(string text, int x, int y, SDL_Renderer* renderer, SDL_Color color) // tao va hien thi van ban len man hinh
 {
     if (TTF_Init() < 0)
     {

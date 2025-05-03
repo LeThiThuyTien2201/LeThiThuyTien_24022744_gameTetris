@@ -15,14 +15,16 @@ const int Tetris::figure[7][4] =
     1, 4, 5, 6  // T
 };
 
+//khoi tao SDL
 bool Tetris::init(){
     Game.initSDL(Game.window, Game.renderer);
     SDL_SetRenderDrawColor(Game.renderer, 255, 255, 255, 255);
 
-    nextTetromino();
+    nextTetromino(); // sinh ra khoi dau tien
     return true;
 }
 
+// kiem tra chuot co nam trong rect khong
 bool Tetris::selectRect(SDL_Rect &rect, const int x, const int y){
     if(x >= rect.x && x <= rect.x + rect.w
        && y >= rect.y && y <= rect.y + rect.h){
@@ -126,11 +128,13 @@ bool Tetris::menu(){
     return true;
 }
 
+//cap nhat vi tri
 void Tetris::updateField(SDL_Rect &rect, const int x, const int y){
     rect.x += x;
     rect.y += y;
 }
 
+//xu ly phim bam
 void Tetris::Event(){
     SDL_Event e;
     while(SDL_PollEvent(&e))
@@ -144,25 +148,25 @@ void Tetris::Event(){
         {
             switch(e.key.keysym.sym)
             {
-            case SDLK_RIGHT :
+            case SDLK_RIGHT : // sang phai
                 {
                      move = 1;
                      Game.effectAudio("Move.wav");
                      break;
                 }
-            case SDLK_LEFT :
+            case SDLK_LEFT : // sang trai
                 {
                      move = -1;
                      Game.effectAudio("Move.wav");
                      break;
                 }
-            case SDLK_UP :
+            case SDLK_UP : // xoay khoi
                 {
                     rotate = true;
                     Game.effectAudio("rotate.wav");
                     break;
                 }
-            case SDLK_DOWN :
+            case SDLK_DOWN : // roi nhanh
                 {
                     delay = 0;
                 }
@@ -175,6 +179,7 @@ void Tetris::setCurrentTime(Uint32 t){
     currentTime = t;
 }
 
+//kiem tra va cham
 bool Tetris::collision(){
     for(int i = 0; i < 4; i++){
         if(temp[i].x < 0 || temp[i].x >= col || temp[i].y >= line)   //va cham vs field
@@ -263,7 +268,7 @@ void Tetris::checkline(){
         if(count < col)
             n--;
         if(count == col){
-            Game.effectAudio("Lineclear_.wav");
+            Game.effectAudio("Lineclear.wav");
             score += 100;
             string text = to_string(score);
             if(score < 1000)
